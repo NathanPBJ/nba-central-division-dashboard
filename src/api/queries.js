@@ -5,7 +5,14 @@
 export async function fetchTeamLive(teamSlug) {
   const response = await fetch(`/api/teams/${teamSlug}/live`)
   if (!response.ok) {
-    throw new Error(`Failed to fetch live data for ${teamSlug}`)
+    let errMsg = `Failed to fetch live data for ${teamSlug} (Status ${response.status})`
+    try {
+      const errText = await response.text()
+      errMsg += ` - ${errText.slice(0, 150)}`
+    } catch(e) {
+      errMsg += ' - Could not read response body'
+    }
+    throw new Error(errMsg)
   }
   const payload = await response.json()
   return payload
