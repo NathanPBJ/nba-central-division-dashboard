@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import nbaPlayerIds from '../data/nbaPlayerIds.json'
+import nbaPlayerIds from '../data/nbaPlayerIds.js'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Menu } from 'lucide-react'
