@@ -1,19 +1,34 @@
 @import 'tailwindcss';
 
+/* ═══════════════════════════════════════════════════════════
+   TAILWIND THEME TOKENS
+   ═══════════════════════════════════════════════════════════ */
+
 @theme {
   --font-display: 'Outfit', sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-chi: 'Bebas Neue', 'Impact', sans-serif;
+  --font-mil: 'DM Sans', 'Inter', sans-serif;
+  --font-ind: 'Outfit', sans-serif;
+  --font-cle: 'Playfair Display', 'Georgia', serif;
+  --font-det: 'Oswald', 'Impact', sans-serif;
+
   --color-brand-primary: var(--brand-primary);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-bg: var(--brand-bg);
   --color-brand-surface: var(--brand-surface);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   LEGACY THEME SYSTEM (kept for backward compat)
+   ═══════════════════════════════════════════════════════════ */
+
 :root, [data-theme="modern-navy"] {
-  --brand-primary: #002D62; /* Navy */
-  --brand-secondary: #FDBB30; /* Gold */
+  --brand-primary: #002D62;
+  --brand-secondary: #FDBB30;
   --brand-bg: #0a1628;
   --brand-surface: #102138;
+  --team-font-display: var(--font-ind);
 }
 
 [data-theme="flo-jo"] {
@@ -29,6 +44,312 @@
   --brand-bg: #1a050c;
   --brand-surface: #2b0814;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   ██████╗ ██╗   ██╗██╗     ██╗     ███████╗
+   ██╔══██╗██║   ██║██║     ██║     ██╔════╝
+   ██████╔╝██║   ██║██║     ██║     ███████╗
+   ██╔══██╗██║   ██║██║     ██║     ╚════██║
+   ██████╔╝╚██████╔╝███████╗███████╗███████║
+   CHICAGO BULLS — Aggressive Brutalist
+   ═══════════════════════════════════════════════════════════ */
+
+[data-team="chi"] {
+  --brand-primary: #C9082A;
+  --brand-secondary: #FF2244;
+  --brand-bg: #0D0005;
+  --brand-surface: #1a0008;
+  --team-font-display: var(--font-chi);
+  --team-particle: rgba(201, 8, 42, 0.15);
+  --team-glow: rgba(201, 8, 42, 0.4);
+}
+
+[data-team="chi"] .team-display {
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  letter-spacing: 0.04em;
+  line-height: 0.9;
+}
+
+[data-team="chi"] .team-subtext {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Brutalist sharp borders */
+[data-team="chi"] .panel-card {
+  border-radius: 0;
+  border-width: 2px;
+}
+
+/* Ember particle animation */
+@keyframes chi-ember {
+  0%   { transform: translateY(0) scale(1);   opacity: 0.6; }
+  50%  { transform: translateY(-60px) scale(0.7) translateX(8px); opacity: 0.3; }
+  100% { transform: translateY(-130px) scale(0.2) translateX(-4px); opacity: 0; }
+}
+
+@keyframes chi-smoke {
+  0%   { opacity: 0; transform: scale(0.6) translateY(0); }
+  40%  { opacity: 0.08; }
+  100% { opacity: 0; transform: scale(1.6) translateY(-80px); }
+}
+
+.chi-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.chi-particles::before,
+.chi-particles::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,8,42,0.5) 0%, transparent 70%);
+  animation: chi-smoke 8s ease-in-out infinite;
+}
+
+.chi-particles::before {
+  width: 600px;
+  height: 600px;
+  left: -100px;
+  bottom: -100px;
+  animation-delay: -2s;
+}
+
+.chi-particles::after {
+  width: 400px;
+  height: 400px;
+  right: -80px;
+  top: 20%;
+  animation-delay: -5s;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MILWAUKEE BUCKS — Sleek Geometric
+   ═══════════════════════════════════════════════════════════ */
+
+[data-team="mil"] {
+  --brand-primary: #00471B;
+  --brand-secondary: #EEE1C6;
+  --brand-bg: #050f07;
+  --brand-surface: #0a1f0e;
+  --team-font-display: var(--font-mil);
+  --team-particle: rgba(0, 71, 27, 0.15);
+  --team-glow: rgba(238, 225, 198, 0.2);
+}
+
+[data-team="mil"] .team-display {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+[data-team="mil"] .team-subtext {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Rounded glassmorphic panels */
+[data-team="mil"] .panel-card {
+  border-radius: 16px;
+}
+
+/* Chevron background pattern */
+.mil-chevrons {
+  background-image:
+    repeating-linear-gradient(
+      60deg,
+      transparent,
+      transparent 30px,
+      rgba(0,71,27,0.06) 30px,
+      rgba(0,71,27,0.06) 32px
+    ),
+    repeating-linear-gradient(
+      -60deg,
+      transparent,
+      transparent 30px,
+      rgba(238,225,198,0.03) 30px,
+      rgba(238,225,198,0.03) 32px
+    );
+}
+
+@keyframes mil-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.04); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INDIANA PACERS — Velocity & Rhythm (existing system)
+   ═══════════════════════════════════════════════════════════ */
+
+[data-team="ind"] {
+  --brand-primary: #002D62;
+  --brand-secondary: #FDBB30;
+  --brand-bg: #010a18;
+  --brand-surface: #081428;
+  --team-font-display: var(--font-ind);
+  --team-particle: rgba(253,187,48,0.1);
+  --team-glow: rgba(253,187,48,0.3);
+}
+
+[data-team="ind"] .team-display {
+  font-family: var(--font-ind);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-style: italic;
+}
+
+[data-team="ind"] .team-subtext {
+  font-family: var(--font-ind);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CLEVELAND CAVALIERS — Regal & Metallic
+   ═══════════════════════════════════════════════════════════ */
+
+[data-team="cle"] {
+  --brand-primary: #6F263D;
+  --brand-secondary: #FFB81C;
+  --brand-bg: #0f0508;
+  --brand-surface: #1e0a12;
+  --team-font-display: var(--font-cle);
+  --team-particle: rgba(111,38,61,0.2);
+  --team-glow: rgba(255,184,28,0.35);
+}
+
+[data-team="cle"] .team-display {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.0;
+}
+
+[data-team="cle"] .team-subtext {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Metallic gold border */
+[data-team="cle"] .panel-card {
+  border-image: linear-gradient(135deg, #FFB81C 0%, #8B6914 40%, #FFB81C 70%, #8B6914 100%) 1;
+}
+
+/* Brushed metal texture overlay */
+.cle-metal-texture {
+  background-image:
+    repeating-linear-gradient(
+      92deg,
+      transparent 0,
+      rgba(255,184,28,0.015) 1px,
+      transparent 2px,
+      transparent 8px
+    ),
+    radial-gradient(ellipse at 30% 60%, rgba(111,38,61,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,184,28,0.06) 0%, transparent 50%);
+}
+
+@keyframes cle-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.cle-metallic {
+  background: linear-gradient(
+    110deg,
+    #8B6914 0%,
+    #FFB81C 20%,
+    #FFD96B 35%,
+    #FFB81C 50%,
+    #8B6914 65%,
+    #FFB81C 80%,
+    #FFD96B 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: cle-shimmer 5s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DETROIT PISTONS — Industrial & Gritty
+   ═══════════════════════════════════════════════════════════ */
+
+[data-team="det"] {
+  --brand-primary: #1D42BA;
+  --brand-secondary: #C8102E;
+  --brand-bg: #080c12;
+  --brand-surface: #0e1624;
+  --team-font-display: var(--font-det);
+  --team-particle: rgba(29,66,186,0.15);
+  --team-glow: rgba(200,16,46,0.4);
+}
+
+[data-team="det"] .team-display {
+  font-family: 'Oswald', 'Impact', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 0.95;
+}
+
+[data-team="det"] .team-subtext {
+  font-family: 'Oswald', 'Impact', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+/* Hard industrial borders */
+[data-team="det"] .panel-card {
+  border-radius: 0;
+  border-width: 3px;
+  border-color: rgba(29,66,186,0.4);
+}
+
+/* Rivet / bolt decorative element */
+[data-team="det"] .panel-card::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8A9BA8 30%, #3a4a58 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Grit noise texture */
+.det-grit {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+@keyframes det-weld {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL RESETS & BASE
+   ═══════════════════════════════════════════════════════════ */
 
 * {
   box-sizing: border-box;
@@ -61,10 +382,133 @@ select {
   font: inherit;
 }
 
-/* ─────────────────────────────────────────────
-   PACERS DISPLAY TYPOGRAPHY
-   Outfit Black — aggressive, premium, high contrast
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   MAIN MENU — Cosmos background
+   ═══════════════════════════════════════════════════════════ */
+
+.menu-cosmos {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(20,10,40,0.8) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(10,20,50,0.6) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(30,5,15,0.7) 0%, transparent 55%),
+    #080810;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.4); }
+}
+
+@keyframes cosmos-drift {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-20px, -30px) rotate(1deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TRADING CARD — Holographic sheen
+   ═══════════════════════════════════════════════════════════ */
+
+.trading-card {
+  position: relative;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  user-select: none;
+  will-change: transform;
+}
+
+.trading-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Holographic rainbow conic-gradient overlay */
+.trading-card-holo {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    from calc(var(--holo-angle, 0deg) + 0deg),
+    hsl(0,  80%, 60%) 0%,
+    hsl(60, 80%, 60%) 16.6%,
+    hsl(120,80%, 60%) 33.3%,
+    hsl(180,80%, 60%) 50%,
+    hsl(240,80%, 60%) 66.6%,
+    hsl(300,80%, 60%) 83.3%,
+    hsl(360,80%, 60%) 100%
+  );
+  opacity: 0;
+  mix-blend-mode: color-dodge;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.trading-card-holo-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    calc(var(--mouse-x, 0.5) * 180deg + 30deg),
+    transparent 20%,
+    rgba(255,255,255,0.08) 40%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.08) 60%,
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.trading-card:hover .trading-card-holo {
+  opacity: 0.18;
+}
+
+.trading-card:hover .trading-card-holo-shimmer {
+  opacity: 1;
+}
+
+/* Edge gloss */
+.trading-card-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.12) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(255,255,255,0.06) 100%
+  );
+  pointer-events: none;
+}
+
+/* Card foil stamp pattern */
+.trading-card-foil {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 3px,
+    rgba(255,255,255,0.015) 3px,
+    rgba(255,255,255,0.015) 4px
+  );
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PACERS DISPLAY TYPOGRAPHY (backward compat)
+   ═══════════════════════════════════════════════════════════ */
 
 .pacers-display {
   font-family: var(--font-display);
@@ -82,16 +526,17 @@ select {
   letter-spacing: -0.02em;
 }
 
-/* ─────────────────────────────────────────────
-   GLASSMORPHISM TEXTURES
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   GLASSMORPHISM
+   ═══════════════════════════════════════════════════════════ */
+
 .bg-noise {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
 }
 
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════
    SPEED LINES — Racing heritage decoration
-   ───────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════ */
 
 .speed-lines {
   position: relative;
@@ -116,9 +561,9 @@ select {
   z-index: 0;
 }
 
-/* ─────────────────────────────────────────────
-   RACING STRIPE — Bold diagonal gold accent
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   RACING STRIPE
+   ═══════════════════════════════════════════════════════════ */
 
 .racing-stripe {
   position: relative;
@@ -135,9 +580,9 @@ select {
   transform: skewX(-4deg);
 }
 
-/* ─────────────────────────────────────────────
-   COURT LINES — Subtle basketball court grid
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   COURT LINES
+   ═══════════════════════════════════════════════════════════ */
 
 .court-lines {
   background-image:
@@ -146,9 +591,9 @@ select {
   background-size: 56px 56px;
 }
 
-/* ─────────────────────────────────────────────
-   DIAGONAL CUT — Angled section divider
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   DIAGONAL CUT
+   ═══════════════════════════════════════════════════════════ */
 
 .diagonal-cut-bottom {
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), 0 100%);
@@ -158,12 +603,12 @@ select {
   clip-path: polygon(0 32px, 100% 0, 100% 100%, 0 100%);
 }
 
-/* ─────────────────────────────────────────────
-   GOLD SHIMMER — Animated accent
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   GOLD SHIMMER
+   ═══════════════════════════════════════════════════════════ */
 
 @keyframes gold-shimmer {
-  0% { background-position: -200% center; }
+  0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
 
@@ -182,9 +627,9 @@ select {
   animation: gold-shimmer 4s ease-in-out infinite;
 }
 
-/* ─────────────────────────────────────────────
-   STAT TABLE — Clean data grid
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   STAT TABLE
+   ═══════════════════════════════════════════════════════════ */
 
 .stat-table th {
   white-space: nowrap;
@@ -202,9 +647,21 @@ select {
   font-variant-numeric: tabular-nums;
 }
 
-/* ─────────────────────────────────────────────
+/* Per-team stat table overrides */
+[data-team="chi"] .stat-table th,
+[data-team="det"] .stat-table th {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.1em;
+}
+
+[data-team="cle"] .stat-table th {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+}
+
+/* ═══════════════════════════════════════════════════════════
    CHART TOOLTIPS
-   ───────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════ */
 
 .chart-tooltip {
   min-width: 164px;
@@ -245,9 +702,9 @@ select {
   transform: rotate(45deg);
 }
 
-/* ─────────────────────────────────────────────
-   SCROLLBAR — Hidden utility
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════════ */
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -258,57 +715,49 @@ select {
   scrollbar-width: none;
 }
 
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════
    ANIMATIONS
-   ───────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════ */
 
 @keyframes bounce-ball {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50%       { transform: translateY(-12px); }
 }
 
 @keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(24px) skewX(-4deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) skewX(0);
-  }
+  from { opacity: 0; transform: translateX(24px) skewX(-4deg); }
+  to   { opacity: 1; transform: translateX(0) skewX(0); }
 }
 
 @keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes stripe-slide {
   from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
+  to   { transform: translateX(100%); }
 }
 
-.animate-bounce-ball {
-  animation: bounce-ball 0.8s ease-in-out infinite;
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(0) scale(1); }
+  50%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(-80px) scale(0.6); }
 }
 
-.animate-slide-in {
-  animation: slide-in-right 0.4s ease-out both;
-}
+.animate-bounce-ball  { animation: bounce-ball 0.8s ease-in-out infinite; }
+.animate-slide-in     { animation: slide-in-right 0.4s ease-out both; }
+.animate-fade-up      { animation: fade-up 0.5s ease-out both; }
+.animate-fade-in      { animation: fade-in 0.4s ease-out both; }
 
-.animate-fade-up {
-  animation: fade-up 0.5s ease-out both;
-}
-
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════
    CARD HOVER — 3D tilt effect
-   ───────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════ */
 
 .card-tilt {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -322,9 +771,9 @@ select {
     0 0 0 1px rgba(from var(--brand-secondary) r g b / 0.3);
 }
 
-/* ─────────────────────────────────────────────
-   CHAMPIONSHIP BANNER — Arena rafter style
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   CHAMPIONSHIP BANNER
+   ═══════════════════════════════════════════════════════════ */
 
 .banner-flag {
   position: relative;
@@ -332,9 +781,9 @@ select {
   text-align: center;
 }
 
-/* ─────────────────────────────────────────────
-   NAV TAB — Active gold wedge
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   NAV TAB
+   ═══════════════════════════════════════════════════════════ */
 
 .nav-tab {
   position: relative;
@@ -352,30 +801,18 @@ select {
   transform: skewX(-12deg);
 }
 
-/* ─────────────────────────────────────────────
-   CUSTOM SCROLLBAR for dark theme
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM SCROLLBAR
+   ═══════════════════════════════════════════════════════════ */
 
-::-webkit-scrollbar {
-  width: 8px;
-}
+::-webkit-scrollbar        { width: 8px; }
+::-webkit-scrollbar-track  { background: var(--brand-bg); }
+::-webkit-scrollbar-thumb  { background: #1e3a5c; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-secondary); }
 
-::-webkit-scrollbar-track {
-  background: var(--brand-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: #1e3a5c;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-secondary);
-}
-
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════
    PACERS SELECT — Custom dropdown
-   ───────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════ */
 
 .pacers-select {
   appearance: none;
@@ -384,4 +821,146 @@ select {
   background-position: right 0.75rem center;
   background-size: 1.2em 1.2em;
   padding-right: 2.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER — Team-specific overrides
+   ═══════════════════════════════════════════════════════════ */
+
+/* CHI header: black top bar with red accent line */
+[data-team="chi"] header {
+  background: rgba(13,0,5,0.85) !important;
+  border-bottom-color: rgba(201,8,42,0.3) !important;
+}
+
+[data-team="chi"] header .header-accent-line {
+  background: linear-gradient(90deg, transparent, #C9082A, #FF2244, #C9082A, transparent) !important;
+}
+
+/* MIL header: deep forest with cream accent */
+[data-team="mil"] header {
+  background: rgba(5,15,7,0.9) !important;
+  border-bottom-color: rgba(0,71,27,0.4) !important;
+}
+
+[data-team="mil"] header .header-accent-line {
+  background: linear-gradient(90deg, transparent, #00471B, #EEE1C6, #00471B, transparent) !important;
+}
+
+/* CLE header: dark wine */
+[data-team="cle"] header {
+  background: rgba(15,5,8,0.9) !important;
+  border-bottom-color: rgba(111,38,61,0.4) !important;
+}
+
+[data-team="cle"] header .header-accent-line {
+  background: linear-gradient(90deg, transparent, #6F263D, #FFB81C, #6F263D, transparent) !important;
+}
+
+/* DET header: dark steel */
+[data-team="det"] header {
+  background: rgba(8,12,18,0.92) !important;
+  border-bottom-color: rgba(29,66,186,0.4) !important;
+}
+
+[data-team="det"] header .header-accent-line {
+  background: linear-gradient(90deg, transparent, #1D42BA, #C8102E, #1D42BA, transparent) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TEAM LOGO BADGE — Header identity mark
+   ═══════════════════════════════════════════════════════════ */
+
+.team-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 2px solid;
+  transition: box-shadow 0.3s ease;
+}
+
+[data-team="chi"]  .team-logo-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  background: radial-gradient(circle at 40% 35%, #3d0010, #0D0005);
+  border-color: rgba(201,8,42,0.5);
+  color: #C9082A;
+  box-shadow: 0 0 20px rgba(201,8,42,0.2);
+}
+
+[data-team="mil"]  .team-logo-badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  background: radial-gradient(circle at 40% 35%, #003a12, #050f07);
+  border-color: rgba(0,71,27,0.5);
+  color: #EEE1C6;
+  box-shadow: 0 0 20px rgba(0,71,27,0.2);
+}
+
+[data-team="ind"]  .team-logo-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  background: radial-gradient(circle at 40% 35%, #001840, #010a18);
+  border-color: rgba(253,187,48,0.4);
+  color: #FDBB30;
+  box-shadow: 0 0 20px rgba(253,187,48,0.15);
+}
+
+[data-team="cle"]  .team-logo-badge {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  background: radial-gradient(circle at 40% 35%, #3a0f1c, #0f0508);
+  border-color: rgba(255,184,28,0.4);
+  color: #FFB81C;
+  box-shadow: 0 0 20px rgba(255,184,28,0.15);
+}
+
+[data-team="det"]  .team-logo-badge {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  background: radial-gradient(circle at 40% 35%, #0a1530, #080c12);
+  border-color: rgba(200,16,46,0.5);
+  color: #8A9BA8;
+  box-shadow: 0 0 20px rgba(29,66,186,0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TEAM-AWARE SECTION CARDS
+   ═══════════════════════════════════════════════════════════ */
+
+/* Chi: Hard edges, high-contrast */
+[data-team="chi"] .card-tilt:hover {
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.6),
+    0 0 0 2px rgba(201,8,42,0.5);
+}
+
+/* Mil: Soft glow */
+[data-team="mil"] .card-tilt:hover {
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(238,225,198,0.2),
+    0 0 30px rgba(0,71,27,0.2);
+}
+
+/* Cle: Metallic gold highlight */
+[data-team="cle"] .card-tilt:hover {
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(255,184,28,0.4),
+    0 0 20px rgba(255,184,28,0.1);
+}
+
+/* Det: Heavy industrial shadow */
+[data-team="det"] .card-tilt:hover {
+  box-shadow:
+    0 24px 48px rgba(0,0,0,0.7),
+    0 0 0 3px rgba(29,66,186,0.4);
 }

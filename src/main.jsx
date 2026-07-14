@@ -1,6 +1,6 @@
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate, useParams } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useMachine } from '@xstate/react'
 import { appMachine } from './machines/appMachine'
@@ -9,6 +9,7 @@ import { ErrorFallback } from './components/ui/ErrorFallback'
 import './index.css'
 
 import { Root } from './App.jsx'
+import { MainMenu } from './pages/MainMenu'
 import { Overview } from './pages/Overview'
 import { Roster } from './pages/Roster'
 import { Leaders } from './pages/Leaders'
@@ -16,7 +17,7 @@ import { TeamProfile } from './pages/TeamProfile'
 import { FormGuide } from './pages/FormGuide'
 import { Archive } from './pages/Archive'
 
-import { pacersQueryOptions } from './api/queries'
+import { teamQueryOptions } from './api/queries'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,10 +30,13 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <MainMenu />,
+  },
+  {
+    path: '/:teamSlug',
     element: <Root />,
-    loader: async () => {
-      // Ensure data is fetched and cached before rendering the route
-      return await queryClient.ensureQueryData(pacersQueryOptions)
+    loader: async ({ params }) => {
+      return await queryClient.ensureQueryData(teamQueryOptions(params.teamSlug))
     },
     children: [
       { index: true, element: <Overview /> },
@@ -41,9 +45,13 @@ const router = createBrowserRouter([
       { path: 'profile', element: <TeamProfile /> },
       { path: 'form', element: <FormGuide /> },
       { path: 'archive', element: <Archive /> },
-      { path: '*', element: <Navigate to="/" replace /> },
+      { path: '*', element: <Navigate to="." replace /> },
     ],
   },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />,
+  }
 ])
 
 function AppWrapper() {
@@ -55,12 +63,9 @@ function AppWrapper() {
       send({ type: 'FETCH' })
     }
     if (state.matches('loading')) {
-      queryClient.ensureQueryData(pacersQueryOptions)
-        .then(() => send({ type: 'SUCCESS' }))
-        .catch((err) => {
-          setErrorContext(err)
-          send({ type: 'ERROR' })
-        })
+      // We don't prefetch a specific team globally anymore on mount.
+      // Data fetching is handled by the route loader.
+      send({ type: 'SUCCESS' })
     }
   }, [state.value, send])
 

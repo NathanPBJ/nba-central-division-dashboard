@@ -31,7 +31,7 @@ export function PacersBarChart({
           </>
         )}
 
-        <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(253,187,48,0.05)' }} />
+        <Tooltip content={<ChartTooltip />} cursor={{ fill: 'color-mix(in srgb, var(--brand-secondary) 5%, transparent)' }} />
         
         {secondaryDataKey ? (
           <Legend iconType="diamond" wrapperStyle={{ fontSize: 11, color: '#7a8ea6' }} />

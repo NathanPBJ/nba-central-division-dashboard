@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <circle cx="200" cy="200" r="190" fill="#002D62" stroke="#FDBB30" stroke-width="10"/>
+  <text x="200" y="180" font-family="Arial, sans-serif" font-weight="bold" font-size="64" fill="#FDBB30" text-anchor="middle">PACERS</text>
+  <text x="200" y="240" font-family="Arial, sans-serif" font-weight="bold" font-size="36" fill="#FDBB30" text-anchor="middle">1976-1990</text>
+</svg>

@@ -1,6 +1,11 @@
-const PACERS_TEAM_ID = '11'
-const PACERS_SLUG = 'ind'
-const WIKI_TITLE = 'Indiana_Pacers'
+import { teamsCentral } from '../data/franchiseHistory.js'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const nbaPlayerIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/nbaPlayerIds.json'), 'utf-8'))
+
 const LOCAL_COURT_IMAGES = {
   'T.J. McConnell': '/players/tj-mcconnell.jpeg',
   'Andrew Nembhard': '/players/andrew-nembhard.jpeg',
@@ -14,25 +19,99 @@ const LOCAL_COURT_IMAGES = {
   'Jay Huff': '/players/jay-huff.jpeg',
   'Quenton Jackson': '/players/quenton-jackson.jpeg',
   'Ivica Zubac': '/players/ivica-zubac.jpeg',
-  'Kam Jones': '/players/kam-jones.jpeg',
   'Taelon Peter': '/players/taelon-peter.jpeg',
   'Ethan Thompson': '/players/ethan-thompson.jpeg',
   'Jalen Slawson': '/players/jalen-slawson.jpeg',
-  'Micah Potter': '/players/micah-potter.jpeg',
-  'Myles Turner': '/players/myles-turner.jpeg',
   'Pascal Siakam': '/players/pascal-siakam.jpeg',
-  'Bennedict Mathurin': '/players/bennedict-mathurin.jpeg',
-  'Isaiah Jackson': '/players/isaiah-jackson.jpeg',
-  'James Wiseman': '/players/james-wiseman.jpeg',
-  'RayJ Dennis': '/players/rayj-dennis.jpeg',
+  'Braden Smith': '/players/braden-smith.webp',
+  'Kelly Oubre Jr.': '/players/kelly-oubre-jr.webp',
+  'Larry Nance Jr.': '/players/larry-nance-jr.jpg',
+  // Chicago Bulls
+  'Tobe Awaka': '/players/tobe-awaka.webp',
+  'Matas Buzelis': '/players/matas-buzelis.webp',
+  'Nic Claxton': '/players/nic-claxton.webp',
+  'Zach Collins': '/players/zach-collins.jpg',
+  'Rob Dillingham': '/players/rob-dillingham.webp',
+  'Noa Essengue': '/players/noa-essengue.jpg',
+  'Josh Giddey': '/players/josh-giddey.avif',
+  'Tre Jones': '/players/tre-jones.jpg',
+  'Mac McClung': '/players/mac-mclung.avif',
+  'Leonard Miller': '/players/leonard-miller.avif',
+  'Isaac Okoro': '/players/isaac-okoro.webp',
+  'Norman Powell': '/players/norman-powell.jpg',
+  'Jalen Smith': '/players/jalen-smith.jpg',
+  'Dailyn Swain': '/players/dailyn-swain.webp',
+  'Patrick Williams': '/players/patrick-williams.jpg',
+  'Caleb Wilson': '/players/caleb-wilson.jpg',
+  'Guerschon Yabusele': '/players/guerschon-yabusele.webp',
+  // Milwaukee Bucks
+  'Nate Ament': '/players/nate-ament.jpg',
+  'Brayden Burries': '/players/brayden-burries.jpg',
+  'Ousmane Dieng': '/players/ousmane-dieng.avif',
+  'AJ Green': '/players/aj-green.avif',
+  'Tyler Herro': '/players/tyler-herro.jpg',
+  'Kasparas Jakucionis': '/players/kasparas-jakucionis.jpg',
+  'Jaime Jaquez Jr.': '/players/jamie-jaquez-jr.avif',
+  'Kam Jones': '/players/kam-jones.jpeg',
+  'Kyle Kuzma': '/players/kyle-kuzma.avif',
+  'Caris LeVert': '/players/caris-levert.jpg',
+  'Malique Lewis': '/players/malique-lewis.jpg',
+  'Bogoljub Markovic': '/players/bogoljub-markovic.webp',
+  'Pete Nance': '/players/pete-nance.webp',
+  'Kevin Porter Jr.': '/players/kevin-porter-jr.webp',
+  'Ryan Rollins': '/players/ryan-rollins.avif',
+  'Cormac Ryan': '/players/cormac-ryan.avif',
+  'Jericho Sims': '/players/jericho-sims.jpg',
+  'Gary Trent Jr.': '/players/gary-trent-jr.webp',
+  'Myles Turner': '/players/myles-turner.jpeg',
+  'Kel\'el Ware': '/players/kel\'el-ware.jpg',
+  // Cleveland Cavaliers
+  'Jarrett Allen': '/players/jarrett-allen.jpg',
+  'Thomas Bryant': '/players/thomas-bryant.jpg',
+  'Tristan Enaruna': '/players/tristan-enaruna.jpg',
+  'James Harden': '/players/james-harden.webp',
+  'Sam Merrill': '/players/sam merrill.jpg',
+  'Riley Minix': '/players/riley minix.avif',
+  'Donovan Mitchell': '/players/donovan-mitchell.jpg',
+  'Evan Mobley': '/players/evan mobley.jpg',
+  'Craig Porter Jr.': '/players/craig porter jr.jpg',
+  'Tyrese Proctor': '/players/tyrese proctor.jpeg',
+  'Olivier Sarr': '/players/Olivier Sarr.jpg',
+  'Dennis Schroder': '/players/dennis schroder.jpg',
+  'Max Strus': '/players/max strus.jpg',
+  'Meleek Thomas': '/players/meleek-thomas.jpeg',
+  'Nae\'Qwan Tomlin': '/players/Nae\'Qwan Tomlin.webp',
+  'Jaylon Tyson': '/players/jaylon tyson.webp',
+  'Ernest Udeh Jr.': '/players/ernest udeh jr.jpg',
+  // Detroit Pistons
+  'John Collins': '/players/john collins.jpg',
+  'Cade Cunningham': '/players/cade-cunningham.webp',
+  'Jalen Duren': '/players/jalen duren.avif',
+  'Javonte Green': '/players/javonte green.jpg',
+  'Elijah Harkless': '/players/elijah harkless.webp',
+  'Gary Harris': '/players/gary harris.jpg',
+  'Ronald Holland II': '/players/ronald holland II.webp',
+  'Kevin Huerter': '/players/kevin huerter.jpg',
+  'Daniss Jenkins': '/players/daniss jenkins.jpg',
+  'Isaiah Joe': '/players/isiaiah joe.jpg',
+  'Isaac Jones': '/players/isaac jones.jpg',
+  'Chaz Lanier': '/players/chaz lanier.jpg',
+  'Wendell Moore Jr.': '/players/wendell moore jr.jpg',
+  'Ebuka Okorie': '/players/ebuka okorie.webp',
+  'Ugonna Onyenso': '/players/ugonna onyenso.webp',
+  'Taurean Prince': '/players/taurean prince.webp',
+  'Paul Reed': '/players/paul reed.webp',
+  'Duncan Robinson': '/players/duncan robinson.jpg',
+  'Tolu Smith': '/players/tolu smith.jpg',
+  'Ausar Thompson': '/players/ausar thompson.jpg',
 }
 
 const LOCAL_COURT_POSITIONS = {
-  'Kobe Brown': 'object-[center_40%]', // Push the image up so his head is visible
-  'Kam Jones': 'object-[center_30%]', // Push the image down so the top of his head is visible
-  'Jalen Slawson': 'object-[center_20%]', // Adjust for shooting motion
-  'Ben Sheppard': 'object-[center_10%]', // Layup motion
-  'Obi Toppin': 'object-[center_10%]', // Dunking motion
+  'Kobe Brown': 'object-[center_40%]',
+  'Kam Jones': 'object-[center_30%]',
+  'Jalen Slawson': 'object-[center_20%]',
+  'Ben Sheppard': 'object-[center_10%]',
+  'Obi Toppin': 'object-[center_10%]',
   'Tyrese Haliburton': 'object-center',
   'Pascal Siakam': 'object-[center_10%]',
   'Myles Turner': 'object-top',
@@ -55,11 +134,7 @@ const requestHeaders = {
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36',
 }
 
-let liveCache = {
-  expiresAt: 0,
-  staleUntil: 0,
-  payload: null,
-}
+let liveCaches = {}
 
 function currentEspnSeasonYear(now = new Date()) {
   const year = now.getFullYear()
@@ -95,7 +170,6 @@ function extractInfoboxValue(wikitext, key) {
 
   return cleanWikiValue(line.slice(line.indexOf('=') + 1))
 }
-
 
 function parseNumber(value) {
   const number = Number.parseFloat(value)
@@ -170,14 +244,14 @@ function parseAchievement(label, value, kind) {
   }
 }
 
-function parsePlayerStats(statsPayload, seasonYear) {
+function parsePlayerStats(statsPayload, seasonYear, teamId) {
   const averages = statsPayload?.categories?.find((category) => category.name === 'averages')
   if (!averages) return null
 
   const names = averages.names || []
   const teamSeason =
     averages.statistics?.find(
-      (row) => row.teamId === PACERS_TEAM_ID && Number(row.season?.year) === seasonYear,
+      (row) => row.teamId === teamId && Number(row.season?.year) === seasonYear,
     ) ||
     averages.statistics?.find((row) => Number(row.season?.year) === seasonYear) ||
     averages.statistics?.at(-1)
@@ -234,18 +308,18 @@ function aggregatePlayerStats(playerStats) {
   }
 }
 
-function mapGames(scoreboard) {
+function mapGames(scoreboard, teamId) {
   return (scoreboard.events || [])
     .map((event) => {
       const competition = event.competitions?.[0]
       const competitors = competition?.competitors || []
-      const pacers = competitors.find((entry) => entry.team?.id === PACERS_TEAM_ID)
-      const opponent = competitors.find((entry) => entry.team?.id !== PACERS_TEAM_ID)
+      const teamMatch = competitors.find((entry) => entry.team?.id === teamId)
+      const opponent = competitors.find((entry) => entry.team?.id !== teamId)
       const completed = event.status?.type?.completed
 
-      if (!pacers || !opponent || !completed) return null
+      if (!teamMatch || !opponent || !completed) return null
 
-      const pacersScore = Number(pacers.score)
+      const teamScore = Number(teamMatch.score)
       const opponentScore = Number(opponent.score)
 
       return {
@@ -253,10 +327,10 @@ function mapGames(scoreboard) {
         date: event.date,
         opponent: opponent.team?.abbreviation || opponent.team?.shortDisplayName,
         opponentName: opponent.team?.displayName,
-        homeAway: pacers.homeAway,
-        result: pacers.winner ? 'W' : 'L',
-        score: `${pacersScore}-${opponentScore}`,
-        margin: pacersScore - opponentScore,
+        homeAway: teamMatch.homeAway,
+        result: teamMatch.winner ? 'W' : 'L',
+        score: `${teamScore}-${opponentScore}`,
+        margin: teamScore - opponentScore,
       }
     })
     .filter(Boolean)
@@ -419,28 +493,40 @@ function mapSocialLinks(links = []) {
 
 function playerCourtImage(athlete) {
   if (LOCAL_COURT_IMAGES[athlete.displayName]) return LOCAL_COURT_IMAGES[athlete.displayName]
-  return athlete.headshot?.href || ''
+  
+  // Use NBA.com action pose if available, else fallback to ESPN action shot
+  const nbaId = nbaPlayerIds[athlete.displayName]
+  if (nbaId) {
+    return `https://cdn.nba.com/headshots/nba/latest/1040x760/${nbaId}.png`
+  }
+  return `https://a.espncdn.com/i/headshots/nba/players/action/${athlete.id}.jpg`
 }
 
 function playerCourtImagePosition(athlete) {
   return LOCAL_COURT_POSITIONS[athlete.displayName] || 'object-[center_10%]'
 }
 
-async function buildPacersPayload() {
+async function buildTeamPayload(teamSlug) {
+  const teamConfig = teamsCentral[teamSlug]
+  if (!teamConfig) {
+    throw new Error(`Team config not found for slug: ${teamSlug}`)
+  }
+  const { id: teamId, slug, wikiTitle } = teamConfig
+
   const seasonYear = currentEspnSeasonYear()
   const startDate = `${seasonYear - 1}1001`
   const endDate = `${seasonYear}0630`
 
   const [team, roster, standings, scoreboard, wikiSummary, wikiParse] = await Promise.all([
-    fetchJson(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${PACERS_SLUG}`),
-    fetchJson(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${PACERS_SLUG}/roster`),
+    fetchJson(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${slug}`),
+    fetchJson(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${slug}/roster`),
     fetchJson('https://site.web.api.espn.com/apis/v2/sports/basketball/nba/standings?region=us&lang=en&contentorigin=espn'),
     fetchJson(
-      `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?teams=${PACERS_TEAM_ID}&dates=${startDate}-${endDate}`,
+      `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?teams=${teamId}&dates=${startDate}-${endDate}`,
     ),
-    fetchJson(`https://en.wikipedia.org/api/rest_v1/page/summary/${WIKI_TITLE}`),
+    fetchJson(`https://en.wikipedia.org/api/rest_v1/page/summary/${wikiTitle}`),
     fetchJson(
-      `https://en.wikipedia.org/w/api.php?action=parse&page=${WIKI_TITLE}&prop=wikitext&format=json&formatversion=2&origin=*`,
+      `https://en.wikipedia.org/w/api.php?action=parse&page=${wikiTitle}&prop=wikitext&format=json&formatversion=2&origin=*`,
     ),
   ])
 
@@ -457,7 +543,7 @@ async function buildPacersPayload() {
   const playerStats = athletes.map((athlete, index) => {
     const parsed =
       playerStatsPayloads[index].status === 'fulfilled'
-        ? parsePlayerStats(playerStatsPayloads[index].value, seasonYear)
+        ? parsePlayerStats(playerStatsPayloads[index].value, seasonYear, teamId)
         : null
 
     return {
@@ -485,14 +571,14 @@ async function buildPacersPayload() {
 
   const standingsEntry = standings.children
     ?.flatMap((child) => child.standings?.entries || [])
-    .find((entry) => entry.team?.id === PACERS_TEAM_ID)
+    .find((entry) => entry.team?.id === teamId)
   const standingStats = statLookup(standingsEntry?.stats)
   const recordStats = statLookup(team.team?.record?.items?.find((item) => item.type === 'total')?.stats)
   const aggregateStats = aggregatePlayerStats(playerStats)
-  const games = mapGames(scoreboard)
+  const games = mapGames(scoreboard, teamId)
   const wikitext = wikiParse.parse?.wikitext || ''
-  const founded = extractInfoboxValue(wikitext, 'founded') || '1967'
-  const arena = extractInfoboxValue(wikitext, 'arena') || 'Gainbridge Fieldhouse'
+  const founded = extractInfoboxValue(wikitext, 'founded') || teamConfig.founded || '1967'
+  const arena = extractInfoboxValue(wikitext, 'arena') || 'Arena'
   const leagueChamps = extractInfoboxValue(wikitext, 'league_champs')
   const conferenceChamps = extractInfoboxValue(wikitext, 'conf_champs')
   const divisionChamps = extractInfoboxValue(wikitext, 'div_champs')
@@ -511,8 +597,10 @@ async function buildPacersPayload() {
       warning: '',
     },
     teamProfile: {
-      name: team.team?.displayName || 'Indiana Pacers',
-      location: team.team?.location || 'Indiana',
+      id: teamId,
+      slug: slug,
+      name: team.team?.displayName || 'NBA Team',
+      location: team.team?.location || 'Location',
       arena,
       conference: 'Eastern Conference',
       division: team.team?.standingSummary || 'Central Division',
@@ -525,6 +613,7 @@ async function buildPacersPayload() {
       offensiveRating: recordStats.avgPointsFor?.value || standingStats.avgPointsFor?.value || 0,
       defensiveRating: recordStats.avgPointsAgainst?.value || standingStats.avgPointsAgainst?.value || 0,
       standingSummary: team.team?.standingSummary || '',
+      conferenceRank: recordStats.playoffSeed?.value || 0,
       logo: team.team?.logos?.[0]?.href || '',
     },
     roster: athletes.map((athlete) => ({
@@ -559,51 +648,27 @@ async function buildPacersPayload() {
       parseAchievement('League championships', leagueChamps, 'league'),
       parseAchievement('Conference titles', conferenceChamps, 'conference'),
       parseAchievement('Division titles', divisionChamps, 'division'),
-      parseAchievement('Retired numbers', retiredNumbers, 'retired'),
-      { label: 'Founded', value: founded, detail: 'Original ABA franchise', badges: [] },
+      { label: 'Retired numbers', value: teamConfig.retiredNumbers, detail: '', badges: [], type: 'retired' },
+      { label: 'Founded', value: founded, detail: '', badges: [] },
     ].filter((item) => item.value && item.value !== '-'),
-    milestones: [
-      {
-        year: founded,
-        title: 'Born in Indianapolis',
-        detail: `The franchise began play in ${founded} and now plays at ${arena}.`,
-      },
-      {
-        year: '1970-73',
-        title: 'ABA championship era',
-        detail: leagueChamps || 'The Pacers built their first championship identity in the ABA.',
-      },
-      {
-        year: '1976',
-        title: 'Joined the NBA',
-        detail: 'Indiana became an NBA member as part of the ABA-NBA merger.',
-      },
-      {
-        year: 'Finals',
-        title: 'Conference crowns',
-        detail: conferenceChamps || 'The Pacers have represented the East on the league stage.',
-      },
-      {
-        year: 'Division',
-        title: 'Central Division standard',
-        detail: divisionChamps || 'Indiana has stacked division banners across eras.',
-      },
-      {
-        year: 'Rafters',
-        title: 'Retired numbers',
-        detail: retiredNumbers || 'The franchise honors its defining figures in the rafters.',
-      },
-    ],
+    milestones: teamConfig.extendedHistory || [],
+    legends: teamConfig.legends || []
   }
 }
 
-export async function getPacersLivePayload({ forceRefresh = false } = {}) {
+export async function getTeamLivePayload(teamSlug, { forceRefresh = false } = {}) {
   const now = Date.now()
+  let liveCache = liveCaches[teamSlug]
+  if (!liveCache) {
+    liveCache = { expiresAt: 0, staleUntil: 0, payload: null }
+    liveCaches[teamSlug] = liveCache
+  }
+
   if (!forceRefresh && liveCache.payload && liveCache.expiresAt > now) return liveCache.payload
 
   try {
-    const payload = await buildPacersPayload()
-    liveCache = {
+    const payload = await buildTeamPayload(teamSlug)
+    liveCaches[teamSlug] = {
       expiresAt: now + CACHE_TTL_MS,
       staleUntil: now + STALE_TTL_MS,
       payload,

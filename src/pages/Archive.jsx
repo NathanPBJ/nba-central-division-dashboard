@@ -1,10 +1,15 @@
-import { useOutletContext } from 'react-router-dom'
+import { useOutletContext, useParams } from 'react-router-dom'
 import { SectionHeader } from '../components/ui/SectionHeader'
+import { LogoEvolution } from '../components/ui/LogoEvolution'
+import { TEAM_THEMES } from '../constants/teamThemes'
 import { StatPill } from '../components/ui/StatPill'
 
 export function Archive() {
   const { data } = useOutletContext()
-  const { achievements, milestones, teamProfile } = data
+  const { achievements, milestones, teamProfile, legends = [] } = data
+  const { teamSlug } = useParams()
+  
+  const teamTheme = TEAM_THEMES[teamSlug] || TEAM_THEMES['ind']
 
   return (
     <div className="grid gap-6">
@@ -13,7 +18,7 @@ export function Archive() {
         <div className="relative z-10 grid gap-8 p-6 lg:grid-cols-[0.85fr_1.15fr] lg:p-10">
           <div>
             <p className="pacers-display-flat text-sm tracking-[0.3em] text-[var(--brand-secondary)]/50">FRANCHISE ARCHIVE</p>
-            <h2 className="pacers-display gold-shimmer mt-4 text-6xl sm:text-8xl">Indiana<br />Pacers</h2>
+            <h2 className="pacers-display gold-shimmer mt-4 text-6xl sm:text-7xl">{teamProfile.name}</h2>
             <div className="mt-6 grid grid-cols-2 gap-3">
               <StatPill label="FOUNDED" value={teamProfile.founded} accent />
               <StatPill label="HOME COURT" value={teamProfile.arena} />
@@ -29,25 +34,50 @@ export function Archive() {
         <div className="border border-white/6 bg-[var(--brand-primary)]/60 p-5 lg:p-6">
           <SectionHeader kicker="Achievements" title="Franchise Hardware" />
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-            {achievements.map((item) => (
-              <div key={item.label} className="racing-stripe relative overflow-hidden border border-white/6 bg-white/[0.02] p-4">
-                <p className="pacers-display-flat text-[11px] tracking-[0.18em] text-[#5a7090]">{item.label}</p>
-                <div className="mt-2 flex items-end justify-between gap-3">
-                  <p className="pacers-display text-5xl text-[var(--brand-secondary)]">{item.value}</p>
-                  {!!item.badges?.length && (
-                    <div className="flex flex-wrap justify-end gap-1.5">
-                      {item.badges.map((badge) => (
-                        <span key={`${item.label}-${badge.label}`} className="pacers-display-flat bg-[var(--brand-secondary)]/10 px-2 py-1 text-[11px] text-[var(--brand-secondary)]">
-                          {badge.label} {badge.value}
-                        </span>
-                      ))}
+            {achievements.map((item) => {
+              if (item.type === 'retired') {
+                return (
+                  <div key={item.label} className="racing-stripe relative overflow-hidden border border-[var(--brand-secondary)]/20 bg-[var(--brand-secondary)]/5 p-5">
+                    <p className="pacers-display-flat text-[11px] tracking-[0.18em] text-[var(--brand-secondary)]">{item.label}</p>
+                    <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {Array.isArray(item.value) ? item.value.map((retired) => (
+                        <div key={retired.number} className="flex flex-col items-center justify-center p-3 border border-white/5 bg-white/5 rounded-sm hover:bg-[var(--brand-secondary)]/10 transition-colors">
+                          <span className="pacers-display text-4xl text-[var(--brand-secondary)] drop-shadow-[0_0_8px_var(--brand-secondary)]">{retired.number}</span>
+                          <span className="mt-2 text-[10px] text-center uppercase tracking-widest text-white/80 font-bold">{retired.name}</span>
+                        </div>
+                      )) : (
+                        <p className="text-white/50 text-sm">No data available.</p>
+                      )}
                     </div>
-                  )}
+                  </div>
+                )
+              }
+              
+              return (
+                <div key={item.label} className="racing-stripe relative overflow-hidden border border-white/6 bg-white/[0.02] p-4">
+                  <p className="pacers-display-flat text-[11px] tracking-[0.18em] text-[#5a7090]">{item.label}</p>
+                  <div className="mt-2 flex items-end justify-between gap-3">
+                    <p className="pacers-display text-5xl text-[var(--brand-secondary)]">{item.value}</p>
+                    {!!item.badges?.length && (
+                      <div className="flex flex-wrap justify-end gap-1.5">
+                        {item.badges.map((badge) => (
+                          <span key={`${item.label}-${badge.label}`} className="pacers-display-flat bg-[var(--brand-secondary)]/10 px-2 py-1 text-[11px] text-[var(--brand-secondary)]">
+                            {badge.label} {badge.value}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {item.detail && <p className="mt-2 text-sm leading-5 text-[#5a7090]">{item.detail}</p>}
                 </div>
-                {item.detail && <p className="mt-2 text-sm leading-5 text-[#5a7090]">{item.detail}</p>}
-              </div>
-            ))}
+              )
+            })}
           </div>
+
+
+          {teamTheme.logoEvolution && (
+            <LogoEvolution logos={teamTheme.logoEvolution} teamName={teamProfile.name} />
+          )}
         </div>
 
         <div className="border border-white/6 bg-[var(--brand-primary)]/60 p-5 lg:p-6">
@@ -73,6 +103,19 @@ export function Archive() {
               </article>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div className="border border-white/6 bg-[var(--brand-primary)]/60 p-5 lg:p-6 mt-6">
+        <SectionHeader kicker="Greats" title="Franchise Legends" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {legends.map((legend) => (
+            <div key={legend.name} className="border border-white/10 bg-white/[0.02] p-4">
+              <h3 className="font-bold text-lg text-[var(--brand-secondary)]">{legend.name}</h3>
+              <p className="text-xs text-neutral-400 font-mono mt-1">{legend.years}</p>
+              <p className="text-sm mt-3 text-neutral-300">{legend.note}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

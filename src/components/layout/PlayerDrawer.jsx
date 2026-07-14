@@ -2,10 +2,12 @@ import { useSearchParams } from 'react-router-dom'
 import { ExternalLink, X } from 'lucide-react'
 import { statValue, hasStatLine } from '../../utils/helpers'
 import { useMemo } from 'react'
+import { useSound } from '../../hooks/useSound'
 
 export function PlayerDrawer({ roster, playerStats, recentGames }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedPlayerId = searchParams.get('player')
+  const { playClick } = useSound()
 
   const selectedProfile = useMemo(() => {
     if (!selectedPlayerId) return null
@@ -24,6 +26,7 @@ export function PlayerDrawer({ roster, playerStats, recentGames }) {
   const socialLinks = player.socialLinks || []
 
   const handleClose = () => {
+    playClick()
     // Remove 'player' from search params without affecting other params
     const newParams = new URLSearchParams(searchParams)
     newParams.delete('player')
@@ -35,11 +38,24 @@ export function PlayerDrawer({ roster, playerStats, recentGames }) {
       <button type="button" aria-label="Close profile backdrop" onClick={handleClose} className="absolute inset-0 z-0 bg-black/70 backdrop-blur-sm" />
       <aside className="absolute bottom-0 right-0 top-auto z-10 flex max-h-[92svh] w-full flex-col overflow-hidden bg-[var(--brand-bg)]/60 backdrop-blur-3xl border-l border-white/10 text-white shadow-2xl shadow-black/60 md:top-0 md:h-full md:max-h-none md:w-[32rem]">
         <div className="bg-noise absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none z-0" />
-        {/* Court image */}
-        {player.courtImage ? (
-          <img src={player.courtImage} alt={`${player.name} on court`} className={`absolute inset-0 h-full w-full object-cover ${player.courtImagePosition || 'object-[center_10%]'}`} />
-        ) : (
-          <div className="absolute inset-0 court-lines bg-[var(--brand-bg)]" />
+        
+        {/* Always render the court background for transparent action shots */}
+        <div className="absolute inset-0 court-lines bg-[var(--brand-bg)]" />
+
+        {/* Player action image */}
+        {player.courtImage && (
+          <img 
+            src={player.courtImage} 
+            alt={`${player.name} on court`} 
+            className={`absolute inset-0 h-[105%] w-full object-contain ${player.courtImagePosition || 'object-[center_bottom]'}`} 
+            style={{ top: 'auto', bottom: 0 }}
+            onError={(e) => {
+              if (e.currentTarget.src !== player.headshot) {
+                // If action shot fails, fallback to headshot
+                e.currentTarget.src = player.headshot || 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=800'
+              }
+            }}
+          />
         )}
         {/* Heavy gradient scrims */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--brand-bg)]/60 to-[var(--brand-bg)]" />
