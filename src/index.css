@@ -1,0 +1,387 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-surface: var(--brand-surface);
+}
+
+:root, [data-theme="modern-navy"] {
+  --brand-primary: #002D62; /* Navy */
+  --brand-secondary: #FDBB30; /* Gold */
+  --brand-bg: #0a1628;
+  --brand-surface: #102138;
+}
+
+[data-theme="flo-jo"] {
+  --brand-primary: #041E42;
+  --brand-secondary: #FFC633;
+  --brand-bg: #06111e;
+  --brand-surface: #0a1c32;
+}
+
+[data-theme="hickory"] {
+  --brand-primary: #8A1538;
+  --brand-secondary: #FDBB30;
+  --brand-bg: #1a050c;
+  --brand-surface: #2b0814;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--brand-bg);
+  color: #e8ecf1;
+  font-family: var(--font-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+/* ─────────────────────────────────────────────
+   PACERS DISPLAY TYPOGRAPHY
+   Outfit Black — aggressive, premium, high contrast
+   ───────────────────────────────────────────── */
+
+.pacers-display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.pacers-display-flat {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* ─────────────────────────────────────────────
+   GLASSMORPHISM TEXTURES
+   ───────────────────────────────────────────── */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* ─────────────────────────────────────────────
+   SPEED LINES — Racing heritage decoration
+   ───────────────────────────────────────────── */
+
+.speed-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.speed-lines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20%;
+  right: -20%;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    -75deg,
+    transparent,
+    transparent 18px,
+    rgba(from var(--brand-secondary) r g b / 0.03) 18px,
+    rgba(from var(--brand-secondary) r g b / 0.03) 20px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─────────────────────────────────────────────
+   RACING STRIPE — Bold diagonal gold accent
+   ───────────────────────────────────────────── */
+
+.racing-stripe {
+  position: relative;
+}
+
+.racing-stripe::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--brand-secondary) 0%, color-mix(in srgb, var(--brand-secondary), black 30%) 100%);
+  transform: skewX(-4deg);
+}
+
+/* ─────────────────────────────────────────────
+   COURT LINES — Subtle basketball court grid
+   ───────────────────────────────────────────── */
+
+.court-lines {
+  background-image:
+    linear-gradient(rgba(from var(--brand-secondary) r g b / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(from var(--brand-secondary) r g b / 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* ─────────────────────────────────────────────
+   DIAGONAL CUT — Angled section divider
+   ───────────────────────────────────────────── */
+
+.diagonal-cut-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), 0 100%);
+}
+
+.diagonal-cut-top {
+  clip-path: polygon(0 32px, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ─────────────────────────────────────────────
+   GOLD SHIMMER — Animated accent
+   ───────────────────────────────────────────── */
+
+@keyframes gold-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(
+    110deg,
+    var(--brand-secondary) 0%,
+    color-mix(in srgb, var(--brand-secondary), white 40%) 20%,
+    var(--brand-secondary) 40%,
+    var(--brand-secondary) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gold-shimmer 4s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────
+   STAT TABLE — Clean data grid
+   ───────────────────────────────────────────── */
+
+.stat-table th {
+  white-space: nowrap;
+  padding-bottom: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-secondary);
+}
+
+.stat-table td {
+  padding: 10px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─────────────────────────────────────────────
+   CHART TOOLTIPS
+   ───────────────────────────────────────────── */
+
+.chart-tooltip {
+  min-width: 164px;
+  border: 1px solid rgba(from var(--brand-secondary) r g b / 0.25);
+  border-radius: 4px;
+  background: rgba(from var(--brand-bg) r g b / 0.95);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+  padding: 12px 14px;
+  color: #e8ecf1;
+  backdrop-filter: blur(12px);
+}
+
+.chart-tooltip-label {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-secondary);
+}
+
+.chart-tooltip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13px;
+  padding: 2px 0;
+}
+
+.chart-tooltip-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 6px;
+  transform: rotate(45deg);
+}
+
+/* ─────────────────────────────────────────────
+   SCROLLBAR — Hidden utility
+   ───────────────────────────────────────────── */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+   ───────────────────────────────────────────── */
+
+@keyframes bounce-ball {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px) skewX(-4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stripe-slide {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+.animate-bounce-ball {
+  animation: bounce-ball 0.8s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slide-in-right 0.4s ease-out both;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out both;
+}
+
+/* ─────────────────────────────────────────────
+   CARD HOVER — 3D tilt effect
+   ───────────────────────────────────────────── */
+
+.card-tilt {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform-style: preserve-3d;
+}
+
+.card-tilt:hover {
+  transform: translateY(-4px) rotateX(2deg) rotateY(-1deg);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(from var(--brand-secondary) r g b / 0.3);
+}
+
+/* ─────────────────────────────────────────────
+   CHAMPIONSHIP BANNER — Arena rafter style
+   ───────────────────────────────────────────── */
+
+.banner-flag {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────
+   NAV TAB — Active gold wedge
+   ───────────────────────────────────────────── */
+
+.nav-tab {
+  position: relative;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: var(--brand-secondary);
+  transform: skewX(-12deg);
+}
+
+/* ─────────────────────────────────────────────
+   CUSTOM SCROLLBAR for dark theme
+   ───────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--brand-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e3a5c;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-secondary);
+}
+
+/* ─────────────────────────────────────────────
+   PACERS SELECT — Custom dropdown
+   ───────────────────────────────────────────── */
+
+.pacers-select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M6%209L12%2015L18%209%22%20stroke%3D%22%23e8ecf1%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.2em 1.2em;
+  padding-right: 2.5rem;
+}

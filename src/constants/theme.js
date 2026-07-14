@@ -1,0 +1,5 @@
+export const C_NAVY = '#002D62'
+export const C_GOLD = '#FDBB30'
+export const C_SILVER = '#9ea2a2'
+export const C_GRID = 'rgba(253,187,48,0.08)'
+export const C_TICK = '#7a8ea6'
