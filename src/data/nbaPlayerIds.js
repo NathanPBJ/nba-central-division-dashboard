@@ -1,4 +1,4 @@
-{
+export default {
   "Alaa Abdelnaby": 76001,
   "Zaid Abdul-Aziz": 76002,
   "Kareem Abdul-Jabbar": 76003,

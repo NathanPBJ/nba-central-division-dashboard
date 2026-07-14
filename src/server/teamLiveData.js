@@ -1,10 +1,5 @@
 import { teamsCentral } from '../data/franchiseHistory.js'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const nbaPlayerIds = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/nbaPlayerIds.json'), 'utf-8'))
+import nbaPlayerIds from '../data/nbaPlayerIds.js'
 
 const LOCAL_COURT_IMAGES = {
   'T.J. McConnell': '/players/tj-mcconnell.jpeg',
